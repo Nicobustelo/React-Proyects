@@ -1,7 +1,18 @@
-const PageContent = ({ question, answers }) => {
+const PageContent = ({
+	question,
+	answers,
+	comment,
+	commentChangeHandler,
+	clickHandler,
+}) => {
 	return (
 		<div style={{ maxWidth: '800px', margin: '0 auto', padding: '1rem' }}>
 			<Question question={question} />
+			<Comment
+				comment={comment}
+				commentChangeHandler={commentChangeHandler}
+				clickHandler={clickHandler}
+			/>
 			<Answers answers={answers} />
 		</div>
 	);
@@ -29,6 +40,15 @@ const Question = ({ question }) => {
 				{question.description}
 			</h3>
 		</>
+	);
+};
+
+const Comment = ({ comment, commentChangeHandler, clickHandler }) => {
+	return (
+		<div>
+			<input onChange={commentChangeHandler} type="text" value={comment} />
+			<button onClick={clickHandler}>comment</button>
+		</div>
 	);
 };
 
