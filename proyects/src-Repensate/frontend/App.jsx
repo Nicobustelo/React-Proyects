@@ -18,7 +18,7 @@ const App = () => {
 		questionsServices.getAll().then(response => {
 			const questions = response;
 			const largo = questions.length;
-			const randomId = generateRandomInteger(1, largo) - 1;
+			const randomId = generateRandomInteger(1, largo) - 2;
 			console.log('randomId:', randomId);
 
 			setQuestion(questions[randomId]);
@@ -29,12 +29,33 @@ const App = () => {
 		console.log(answers);
 	}, []);
 
-	const clickHandler = () => {
-		console.log(comment);
-		axios
-			.post('http://localhost:3001/questions', { comment })
-			.then(response => console.log(response.data))
-			.catch(error => console.error(error));
+	const getCurrentTime = () => {
+		return new Date();
+	};
+
+	const commentPostHandler = () => {
+		console.log('comment: ', comment);
+		const questionID = Number(question.id);
+		console.log('question ID: ', questionID);
+		const newAnswer = {
+			id: answers.length + 1,
+			user: 'dios',
+			createdAt: getCurrentTime(),
+			answer: comment,
+			upVotes: 0,
+			downVotes: 0,
+		};
+		const updatedAnswers = {
+			...question,
+			answers: answers.concat(newAnswer),
+		};
+
+		questionsServices
+			.createAnswer(questionID, updatedAnswers)
+			.then(res => console.log(res));
+
+		setAnswers(answers.concat(newAnswer));
+		setQuestion(updatedAnswers);
 	};
 
 	const commentChangeHandler = event => {
@@ -51,7 +72,7 @@ const App = () => {
 				answers={answers}
 				comment={comment}
 				commentChangeHandler={commentChangeHandler}
-				clickHandler={clickHandler}
+				commentPostHandler={commentPostHandler}
 			/>
 			{/* <Footer /> */}
 		</div>

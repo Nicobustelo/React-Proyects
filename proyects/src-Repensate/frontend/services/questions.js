@@ -6,8 +6,8 @@ const getAll = () => {
 	return axios.get(baseURL).then(res => res.data);
 };
 
-const createAnswer = newAnswer => {
-	return axios.post(baseURL, newAnswer).then(res => res.data);
+const createAnswer = ({ id, newAnswer }) => {
+	return axios.put(`${baseURL}/${id}`, newAnswer).then(res => res.data);
 };
 
 export default { getAll, createAnswer };
