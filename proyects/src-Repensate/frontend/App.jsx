@@ -11,14 +11,14 @@ const App = () => {
 	const [comment, setComment] = useState('');
 
 	useEffect(() => {
-		function generateRandomInteger(min, max) {
-			return Math.floor(min + Math.random() * (max - min + 1));
+		function randomIntFromInterval(min, max) {
+			return Math.floor(Math.random() * (max - min + 1) + min);
 		}
 
 		questionsServices.getAll().then(response => {
 			const questions = response;
 			const largo = questions.length;
-			const randomId = generateRandomInteger(1, largo) - 2;
+			const randomId = randomIntFromInterval(1, largo - 1) - 1;
 			console.log('randomId:', randomId);
 
 			setQuestion(questions[randomId]);
@@ -64,6 +64,28 @@ const App = () => {
 		setComment(commentValue);
 	};
 
+	const upButton = (id, qoa) => {
+		if (qoa === 1) {
+			const upQuestion = {
+				...question,
+				upVotes: question.upVotes + 1,
+			};
+			axios.put(`http://localhost:3001/questions/${id}`, upQuestion);
+			setQuestion(upQuestion);
+		}
+	};
+
+	const downButton = (id, qoa) => {
+		if (qoa === 1) {
+			const downQuestion = {
+				...question,
+				downVotes: question.downVotes + 1,
+			};
+			axios.put(`http://localhost:3001/questions/${id}`, downQuestion);
+			setQuestion(downQuestion);
+		}
+	};
+
 	return (
 		<div style={{ background: '#000', color: '#fff', minHeight: '100vh' }}>
 			<Navbar />
@@ -73,6 +95,8 @@ const App = () => {
 				comment={comment}
 				commentChangeHandler={commentChangeHandler}
 				commentPostHandler={commentPostHandler}
+				upButton={upButton}
+				downButton={downButton}
 			/>
 			{/* <Footer /> */}
 		</div>
