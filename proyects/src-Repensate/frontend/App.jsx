@@ -24,9 +24,6 @@ const App = () => {
 			setQuestion(questions[randomId]);
 			setAnswers(questions[randomId].answers);
 		});
-
-		console.log(question);
-		console.log(answers);
 	}, []);
 
 	const getCurrentTime = () => {
@@ -72,6 +69,25 @@ const App = () => {
 			};
 			axios.put(`http://localhost:3001/questions/${id}`, upQuestion);
 			setQuestion(upQuestion);
+		} else if (qoa === 2) {
+			let updatedAnswers = [...answers];
+			updatedAnswers = updatedAnswers.map(ans => {
+				if (Number(ans.id) === Number(id)) {
+					const upAnswer = {
+						...ans,
+						upVotes: ans.upVotes + 1,
+					};
+					return upAnswer;
+				} else {
+					return ans;
+				}
+			});
+			const updatedQuestion = {
+				...question,
+				answers: updatedAnswers,
+			};
+			setAnswers(updatedAnswers);
+			setQuestion(updatedQuestion);
 		}
 	};
 
@@ -83,6 +99,25 @@ const App = () => {
 			};
 			axios.put(`http://localhost:3001/questions/${id}`, downQuestion);
 			setQuestion(downQuestion);
+		} else if (qoa === 2) {
+			let updatedAnswers = [...answers];
+			updatedAnswers = updatedAnswers.map(ans => {
+				if (Number(ans.id) === Number(id)) {
+					const downAnswer = {
+						...ans,
+						downVotes: ans.downVotes + 1,
+					};
+					return downAnswer;
+				} else {
+					return ans;
+				}
+			});
+			const updatedQuestion = {
+				...question,
+				answers: updatedAnswers,
+			};
+			setAnswers(updatedAnswers);
+			setQuestion(updatedQuestion);
 		}
 	};
 
@@ -98,7 +133,7 @@ const App = () => {
 				upButton={upButton}
 				downButton={downButton}
 			/>
-			{/* <Footer /> */}
+			<Footer />
 		</div>
 	);
 };

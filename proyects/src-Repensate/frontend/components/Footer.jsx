@@ -2,7 +2,7 @@ const Footer = () => {
 	return (
 		<div
 			style={{
-				background: '#333',
+				background: '#000',
 				color: '#fff',
 				padding: '1rem',
 				textAlign: 'center',

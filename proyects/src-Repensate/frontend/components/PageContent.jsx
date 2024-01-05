@@ -71,12 +71,12 @@ const Separator = () => {
 	);
 };
 
-const Answers = ({ answers }) => {
+const Answers = ({ answers, upButton, downButton }) => {
 	return (
 		<div>
 			{answers.map(answer => (
 				<div key={answer.id} style={{ marginBottom: '1rem' }}>
-					<Answer answer={answer} />
+					<Answer answer={answer} upButton={upButton} downButton={downButton} />
 				</div>
 			))}
 		</div>
