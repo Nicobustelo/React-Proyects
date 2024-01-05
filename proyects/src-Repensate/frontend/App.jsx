@@ -67,7 +67,9 @@ const App = () => {
 				...question,
 				upVotes: question.upVotes + 1,
 			};
-			axios.put(`http://localhost:3001/questions/${id}`, upQuestion);
+			questionsServices
+				.changeQuestionVotes(id, upQuestion)
+				.then(res => console.log(res));
 			setQuestion(upQuestion);
 		} else if (qoa === 2) {
 			let updatedAnswers = [...answers];
@@ -97,7 +99,9 @@ const App = () => {
 				...question,
 				downVotes: question.downVotes + 1,
 			};
-			axios.put(`http://localhost:3001/questions/${id}`, downQuestion);
+			questionsServices
+				.changeQuestionVotes(id, downQuestion)
+				.then(res => console.log(res));
 			setQuestion(downQuestion);
 		} else if (qoa === 2) {
 			let updatedAnswers = [...answers];

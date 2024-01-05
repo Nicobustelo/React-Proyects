@@ -10,4 +10,8 @@ const createAnswer = ({ id, newAnswer }) => {
 	return axios.put(`${baseURL}/${id}`, newAnswer).then(res => res.data);
 };
 
-export default { getAll, createAnswer };
+const changeQuestionVotes = (id, modifiedQuestion) => {
+	return axios.put(`${baseURL}/${id}`, modifiedQuestion).then(res => res.data);
+};
+
+export default { getAll, createAnswer, changeQuestionVotes };
