@@ -3,7 +3,6 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import PageContent from './components/PageContent';
 import questionsServices from './services/questions';
-import axios from 'axios';
 
 const App = () => {
 	const [question, setQuestion] = useState({});
@@ -139,7 +138,9 @@ const App = () => {
 			answers: [],
 		};
 		console.log(newQuestion);
-		axios.post('http://localhost:3001/questions', newQuestion);
+		questionsServices
+			.createQuestion(newQuestion)
+			.then(res => console.log('respuesta del POST', res));
 	};
 
 	const changeNewQuestionValue = event => {
