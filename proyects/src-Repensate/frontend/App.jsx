@@ -9,12 +9,14 @@ const App = () => {
 	const [question, setQuestion] = useState({});
 	const [answers, setAnswers] = useState([]);
 	const [comment, setComment] = useState('');
+	const [newQuestionValue, setNewQuestionValue] = useState('');
+	const [newDescriptionValue, setNewDescriptionValue] = useState('');
+
+	function randomIntFromInterval(min, max) {
+		return Math.floor(Math.random() * (max - min + 1) + min);
+	}
 
 	useEffect(() => {
-		function randomIntFromInterval(min, max) {
-			return Math.floor(Math.random() * (max - min + 1) + min);
-		}
-
 		questionsServices.getAll().then(response => {
 			const questions = response;
 			const largo = questions.length;
@@ -125,9 +127,40 @@ const App = () => {
 		}
 	};
 
+	const postQuestion = () => {
+		const newQuestion = {
+			id: randomIntFromInterval(1, 50000),
+			user: 'jesus',
+			createdAt: getCurrentTime(),
+			question: newQuestionValue,
+			description: newDescriptionValue,
+			upVotes: 0,
+			downVotes: 0,
+			answers: [],
+		};
+		console.log(newQuestion);
+		axios.post('http://localhost:3001/questions', newQuestion);
+	};
+
+	const changeNewQuestionValue = event => {
+		console.log(event.target.value);
+		setNewQuestionValue(event.target.value);
+	};
+
+	const changeNewDescriptionValue = event => {
+		console.log(event.target.value);
+		setNewDescriptionValue(event.target.value);
+	};
+
 	return (
 		<div style={{ background: '#000', color: '#fff', minHeight: '100vh' }}>
-			<Navbar />
+			<Navbar
+				changeNewDescriptionValue={changeNewDescriptionValue}
+				changeNewQuestionValue={changeNewQuestionValue}
+				newQuestionValue={newQuestionValue}
+				newDescriptionValue={newDescriptionValue}
+				postQuestion={postQuestion}
+			/>
 			<PageContent
 				question={question}
 				answers={answers}

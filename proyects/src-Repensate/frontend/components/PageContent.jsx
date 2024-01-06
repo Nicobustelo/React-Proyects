@@ -59,7 +59,12 @@ const Question = ({ question, upButton, downButton }) => {
 const Comment = ({ comment, commentChangeHandler, commentPostHandler }) => {
 	return (
 		<div>
-			<input onChange={commentChangeHandler} type="text" value={comment} />
+			<input
+				style={{ width: '90%' }}
+				onChange={commentChangeHandler}
+				type="text"
+				value={comment}
+			/>
 			<button onClick={commentPostHandler}>comment</button>
 		</div>
 	);
