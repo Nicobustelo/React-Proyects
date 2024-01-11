@@ -163,4 +163,9 @@ app.get('/questions', (req, res) => {
 	res.json(questions);
 });
 
+app.get('/questions/:id', (req, res) => {
+	const question = questions.find(q => q.id === req.params.id);
+	res.json(question);
+});
+
 app.listen(3001, () => console.log('server is running on port 3001'));
