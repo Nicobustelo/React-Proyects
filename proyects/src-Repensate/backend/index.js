@@ -4,8 +4,8 @@ const express = require('express');
 const app = express();
 
 app.use(cors());
-app.use(morgan('tiny'));
 app.use(express.json());
+app.use(morgan('tiny'));
 
 const questions = [
 	{
@@ -166,6 +166,11 @@ app.get('/questions', (req, res) => {
 app.get('/questions/:id', (req, res) => {
 	const question = questions.find(q => q.id === req.params.id);
 	res.json(question);
+});
+
+app.post('/questions', (req, res) => {
+	console.log(req.body);
+	res.json(req.body);
 });
 
 app.listen(3001, () => console.log('server is running on port 3001'));
