@@ -13,8 +13,11 @@ const createAnswer = (id, newAnswer) => {
 		.catch(err => console.error('error:', err));
 };
 
-const changeAnswerVotes = () => {
-	return 'not working yet';
+const changeAnswerVotes = (id, modifiedAnwers) => {
+	return axios
+		.put(`${baseURL}/${id}`, modifiedAnwers)
+		.then(res => console.log(res.dada))
+		.catch(err => log.error(err));
 };
 
 const createQuestion = newQuestion => {
@@ -31,4 +34,10 @@ const changeQuestionVotes = (id, modifiedQuestion) => {
 		.catch(err => console.error('error:', err));
 };
 
-export default { getAll, createAnswer, createQuestion, changeQuestionVotes };
+export default {
+	getAll,
+	createAnswer,
+	createQuestion,
+	changeQuestionVotes,
+	changeAnswerVotes,
+};

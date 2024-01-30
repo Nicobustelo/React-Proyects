@@ -70,7 +70,8 @@ const App = () => {
 			};
 			questionsServices
 				.changeQuestionVotes(id, upQuestion)
-				.then(res => console.log(res));
+				.then(res => console.log(res))
+				.catch(err => console.error(err));
 			setQuestion(upQuestion);
 		} else if (qoa === 2) {
 			let updatedAnswers = [...answers];
@@ -89,6 +90,10 @@ const App = () => {
 				...question,
 				answers: updatedAnswers,
 			};
+			questionsServices
+				.changeAnswerVotes(question.id, updatedQuestion)
+				.then(res => console.log(res))
+				.catch(err => console.error(err));
 			setAnswers(updatedAnswers);
 			setQuestion(updatedQuestion);
 		}
@@ -121,6 +126,10 @@ const App = () => {
 				...question,
 				answers: updatedAnswers,
 			};
+			questionsServices
+				.changeAnswerVotes(question.id, updatedQuestion)
+				.then(res => console.log(res))
+				.catch(err => console.error(err));
 			setAnswers(updatedAnswers);
 			setQuestion(updatedQuestion);
 		}
