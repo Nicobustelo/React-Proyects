@@ -6,7 +6,7 @@ const getAll = () => {
 	return axios.get(baseURL).then(res => res.data);
 };
 
-const createAnswer = ({ id, newAnswer }) => {
+const createAnswer = (id, newAnswer) => {
 	return axios
 		.put(`${baseURL}/${id}`, newAnswer)
 		.then(res => res.data)
