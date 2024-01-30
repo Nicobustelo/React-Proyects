@@ -21,10 +21,10 @@ app.get('/', (req, res) => {
 	res.send('<h1>Hello World!</h1>');
 });
 
-app.get('/api/notes', (request, response) => {
-	Note.find({}).then(notes => {
-		response.json(notes);
-	});
+app.get('/api/notes', async (req, res) => {
+	const notes = await Note.find({});
+
+	res.json(notes);
 });
 
 const generateId = () => {
@@ -47,7 +47,7 @@ app.post('/api/notes', (request, response, next) => {
 	note
 		.save()
 		.then(savedNote => {
-			response.json(savedNote);
+			response.status(201).json(savedNote);
 		})
 		.catch(err => next(err));
 });
