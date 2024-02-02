@@ -3,6 +3,8 @@ const express = require('express');
 const cors = require('cors');
 const app = express();
 const Note = require('./models/note');
+const User = require('./models/user');
+const usersRouter = require('./controllers/users');
 
 const requestLogger = (request, response, next) => {
 	console.log('Method:', request.method);
@@ -22,7 +24,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api/notes', async (req, res) => {
-	const notes = await Note.find({});
+	const notes = await Note.find({}).populate('user', { username: 1, name: 1 });
 
 	res.json(notes);
 });
@@ -32,24 +34,22 @@ const generateId = () => {
 	return maxId + 1;
 };
 
-app.post('/api/notes', (request, response, next) => {
+app.post('/api/notes', async (request, response) => {
 	const body = request.body;
 
-	if (body.content === undefined) {
-		return response.status(400).json({ error: 'content missing' });
-	}
+	const user = await User.findById(body.userId);
 
 	const note = new Note({
 		content: body.content,
-		important: body.important || false,
+		important: body.important === undefined ? false : body.important,
+		user: user.id,
 	});
 
-	note
-		.save()
-		.then(savedNote => {
-			response.status(201).json(savedNote);
-		})
-		.catch(err => next(err));
+	const savedNote = await note.save();
+	user.notes = user.notes.concat(savedNote._id);
+	await user.save();
+
+	response.status(201).json(savedNote);
 });
 
 app.get('/api/notes/:id', (request, response, next) => {
@@ -86,6 +86,8 @@ app.put('/api/notes/:id', (request, response, next) => {
 		})
 		.catch(error => next(error));
 });
+
+app.use('/api/users', usersRouter);
 
 const unknownEndpoint = (request, response) => {
 	response.status(404).send({ error: 'unknown endpoint' });

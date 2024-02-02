@@ -37,7 +37,6 @@ questionsRouter.post('/', (req, res, next) => {
 		.catch(error => next(error));
 });
 
-// POST new answer (should maybe change this, currently updating the whole question with the new answer added to the answers array)
 // DELETE single question
 questionsRouter.delete('/:id', (req, res, next) => {
 	const id = req.params.id;
@@ -53,6 +52,8 @@ questionsRouter.delete('/:id', (req, res, next) => {
 		.catch(error => next(error));
 });
 
+// POST new answer (should maybe change this, currently updating the whole question with the new answer added to the answers array)
+// UPDATE answer votes
 // UPDATE question votes
 questionsRouter.put('/:id', (req, res, next) => {
 	const updatedQuestion = req.body;
